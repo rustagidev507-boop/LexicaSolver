@@ -7,11 +7,25 @@ namespace lexica
         const Model& model,
         const Equation& equation)
     {
+        //------------------------------------------------------
+        // Initialize analysis result
+        //------------------------------------------------------
+
         EquationInfo info;
 
-        info.equation = equation.id;
+        info.equation =
+            equation.id;
 
-        for (auto variableId : equation.variables)
+        //------------------------------------------------------
+        // Classify participating variables
+        //
+        // Variables are separated into known and unknown
+        // groups so later structural algorithms can reason
+        // about solvability and dependency relationships.
+        //------------------------------------------------------
+
+        for (auto variableId :
+             equation.variables)
         {
             const auto& variable =
                 model.variables[variableId];
@@ -29,8 +43,16 @@ namespace lexica
             }
         }
 
+        //------------------------------------------------------
+        // Compute summary statistics
+        //------------------------------------------------------
+
         info.unknownCount =
             info.unknownVariables.size();
+
+        //------------------------------------------------------
+        // Return structural information
+        //------------------------------------------------------
 
         return info;
     }

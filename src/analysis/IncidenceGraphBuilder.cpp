@@ -6,6 +6,14 @@ namespace lexica
     IncidenceGraphBuilder::build(
         const Model& model)
     {
+        //------------------------------------------------------
+        // Allocate graph storage
+        //
+        // One adjacency list is maintained from equations
+        // to variables and another from variables to
+        // equations.
+        //------------------------------------------------------
+
         IncidenceGraph graph;
 
         graph.equationVariables.resize(
@@ -13,6 +21,16 @@ namespace lexica
 
         graph.variableEquations.resize(
             model.variables.size());
+
+        //------------------------------------------------------
+        // Build incidence relationships
+        //
+        // Record every participation relationship between
+        // equations and variables.
+        //
+        // Equation -> Variables
+        // Variable -> Equations
+        //------------------------------------------------------
 
         for (const auto& equation :
              model.equations)
@@ -31,6 +49,10 @@ namespace lexica
                             equation.id);
             }
         }
+
+        //------------------------------------------------------
+        // Return structural connectivity graph
+        //------------------------------------------------------
 
         return graph;
     }

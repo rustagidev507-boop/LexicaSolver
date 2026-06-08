@@ -6,10 +6,26 @@ namespace lexica
     StructuralGraphBuilder::build(
         const Model& model)
     {
+        //------------------------------------------------------
+        // Allocate graph storage
+        //
+        // Only unknown variables participate in structural
+        // matching, so the graph stores equation-to-unknown
+        // relationships.
+        //------------------------------------------------------
+
         StructuralGraph graph;
 
         graph.equationVariables.resize(
             model.equations.size());
+
+        //------------------------------------------------------
+        // Extract structural relationships
+        //
+        // Known variables are treated as available inputs.
+        // Only unknown variables contribute to the solvability
+        // structure of the system.
+        //------------------------------------------------------
 
         for (const auto& equation :
              model.equations)
@@ -33,6 +49,12 @@ namespace lexica
                 }
             }
         }
+
+        //------------------------------------------------------
+        // Return structural representation
+        //
+        // This graph becomes the input to equation matching.
+        //------------------------------------------------------
 
         return graph;
     }
